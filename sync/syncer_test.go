@@ -1536,7 +1536,7 @@ func TestSyncer_p2pSyncForTwoLayers(t *testing.T) {
 	//atxdb := activation.NewDB(atxDb, &mockIStore{}, syncedMsh.DB, layersPerEpoch, goldenATXID, &validatorMock{}, l.WithName("atxDB"))
 	layerFetcher.AddDBs(syncedMsh.Blocks(), atxDb, syncedMsh.Transactions(), poetDB, syncedMsh.InputVector())
 	_ = NewSync(context.TODO(), syncedMiner, syncedMsh, state.NewTxMemPool(), synecdAtxPool, blockEligibilityValidatorMock{}, newMockPoetDb(), conf, timer, layerFetcher, l.WithName("synced"))
-	atx := types.NewActivationTx(types.NIPSTChallenge{}, types.Address{}, &types.NIPST{}, &types.PostProof{})
+	atx := types.NewActivationTx(types.NIPSTChallenge{}, types.Address{}, &types.NIPST{}, 0, &types.PostProof{})
 	atx.CalcAndSetID()
 	fmt.Println("ATX ID ", atx.ShortString())
 

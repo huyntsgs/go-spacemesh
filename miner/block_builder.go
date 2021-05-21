@@ -387,6 +387,9 @@ func (t *BlockBuilder) createBlockLoop(ctx context.Context) {
 				logger.Debug("not synced yet, not building a block in this round")
 				continue
 			}
+			if layerID.GetEpoch().IsGenesis() {
+				continue
+			}
 
 			atxID, proofs, atxs, err := t.blockOracle.BlockEligible(layerID)
 			if err != nil {
@@ -396,7 +399,7 @@ func (t *BlockBuilder) createBlockLoop(ctx context.Context) {
 			}
 			if len(proofs) == 0 {
 				events.ReportDoneCreatingBlock(false, uint64(layerID), "")
-				logger.With().Info("not eligible for blocks in layer", layerID)
+				logger.With().Info("not eligible for blocks in layer", layerID, layerID.GetEpoch())
 				continue
 			}
 			// TODO: include multiple proofs in each block and weigh blocks where applicable
